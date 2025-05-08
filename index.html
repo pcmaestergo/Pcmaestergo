@@ -1,0 +1,692 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixmovilg - Soluciones Informáticas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Dark Theme (Default) */
+        :root {
+            --primary-bg: #0d1117;
+            --secondary-bg: #161b22;
+            --text-color: #c9d1d9;
+            --accent-color: #58a6ff;
+            --accent-hover: #79c0ff;
+            --border-color: #30363d;
+            --header-height: 70px;
+            --footer-height: 50px;
+            --icon-filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(200%) contrast(100%);
+            --logo-text-shadow: 0 0 5px var(--accent-color);
+            --logo-text-shadow-hover: 0 0 10px var(--accent-hover), 0 0 15px var(--accent-hover);
+            --nav-link-hover-color: var(--primary-bg);
+            --service-item-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            --service-item-shadow-hover: 0 6px 20px rgba(88, 166, 255, 0.3);
+            --contact-button-shadow: 0 2px 8px rgba(88, 166, 255, 0.2);
+            --contact-button-shadow-hover: 0 4px 15px rgba(88, 166, 255, 0.4);
+            --advertisement-shadow: 0 0 20px rgba(88, 166, 255, 0.15);
+        }
+
+        /* Light Theme */
+        html.light-mode {
+            --primary-bg: #f0f2f5;
+            --secondary-bg: #ffffff;
+            --text-color: #1c1e21;
+            --accent-color: #007bff;
+            --accent-hover: #0056b3;
+            --border-color: #dee2e6;
+            --icon-filter: none;
+            --logo-text-shadow: 0 0 3px rgba(0, 123, 255, 0.4);
+            --logo-text-shadow-hover: 0 0 6px rgba(0, 86, 179, 0.5), 0 0 10px rgba(0, 86, 179, 0.5);
+            --nav-link-hover-color: #ffffff;
+            --service-item-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --service-item-shadow-hover: 0 6px 20px rgba(0, 123, 255, 0.2);
+            --contact-button-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+            --contact-button-shadow-hover: 0 4px 15px rgba(0, 123, 255, 0.3);
+            --advertisement-shadow: 0 0 20px rgba(0, 123, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            padding-top: var(--header-height);
+            padding-bottom: var(--footer-height);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        header {
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--accent-color);
+            cursor: pointer;
+            text-shadow: var(--logo-text-shadow);
+            transition: transform 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
+            margin-right: 20px;
+        }
+        .logo:hover {
+            transform: scale(1.03);
+            text-shadow: var(--logo-text-shadow-hover);
+        }
+
+        .theme-toggle-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-toggle-button img {
+            width: 22px;
+            height: 22px;
+            filter: var(--icon-filter);
+            transition: filter 0.3s ease;
+        }
+        #moon-icon { display: none; }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+        .nav-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 5px 0;
+            transition: all 0.3s ease-in-out, background-color 0.3s ease;
+            border-radius: 1px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-menu li {
+            margin-left: 25px;
+        }
+
+        .nav-menu li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu li a:hover,
+        .nav-menu li a.active-link {
+            background-color: var(--accent-color);
+            color: var(--nav-link-hover-color);
+            text-shadow: none;
+            transform: translateY(-2px);
+        }
+
+        /* Page content styling */
+        .page {
+            display: none;
+            padding: 30px 10px;
+            animation: fadeInPage 0.6s ease-in-out;
+            min-height: calc(100vh - var(--header-height) - var(--footer-height) - 40px);
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page h1, .page h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        .page h1 { font-size: 2.5em; text-shadow: 0 0 8px var(--accent-color); }
+        html.light-mode .page h1 { text-shadow: 0 0 8px rgba(0, 123, 255, 0.3); }
+        .page h2 { font-size: 2em; text-shadow: 0 0 5px var(--accent-color); }
+        html.light-mode .page h2 { text-shadow: 0 0 5px rgba(0, 123, 255, 0.2); }
+
+        .page p, .page ul {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-align: justify;
+        }
+        .page ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+        .page li {
+            margin-bottom: 8px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .service-item {
+            background-color: var(--secondary-bg);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            border-left: 3px solid transparent;
+            box-shadow: var(--service-item-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-left-color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--service-item-shadow-hover);
+            border-left-color: var(--accent-color);
+        }
+
+        .service-item h3 {
+            color: var(--accent-hover);
+            margin-bottom: 10px;
+            font-size: 1.4em;
+            transition: color 0.3s ease;
+        }
+
+        .price-tag {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-top: 10px;
+            display: block;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .contact-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--nav-link-hover-color);
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, letter-spacing 0.3s ease, color 0.3s ease;
+            min-width: 250px;
+            text-align: center;
+            box-shadow: var(--contact-button-shadow);
+        }
+        
+        .contact-button img { 
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        .contact-button:hover {
+            background-color: var(--accent-hover);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: var(--contact-button-shadow-hover);
+            letter-spacing: 0.5px;
+        }
+
+        .advertisement-placeholder {
+            background-color: var(--secondary-bg);
+            border: 1px dashed var(--accent-color);
+            padding: 25px;
+            margin: 40px auto 20px auto;
+            text-align: center;
+            border-radius: 8px;
+            max-width: 90%;
+            width: 600px;
+            box-shadow: var(--advertisement-shadow);
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .advertisement-placeholder h2 {
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--accent-hover);
+            margin-bottom: 15px;
+            font-size: 1.6em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .advertisement-placeholder p.ad-text {
+            font-size: 1.1em;
+            margin-top: 15px;
+            color: var(--text-color);
+            line-height: 1.8;
+            transition: color 0.3s ease;
+        }
+        
+        .digital-menu-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            transition: background-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease, border-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .digital-menu-link:hover {
+            background-color: var(--accent-color);
+            color: var(--nav-link-hover-color);
+            text-shadow: none;
+            border-color: var(--accent-hover);
+        }
+
+        footer {
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--footer-height);
+            z-index: 1000;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9em;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            bottom: calc(var(--footer-height) + 15px); 
+            right: 15px;
+            background-color: #25D366; 
+            color: #FFF;
+            border-radius: 50%; 
+            text-align: center;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            z-index: 1001; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .whatsapp-float img {
+            width: 28px; 
+            height: 28px;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 3px 3px 12px rgba(0,0,0,0.4);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.4em;
+            }
+            .nav-toggle {
+                display: block;
+            }
+            .nav-menu {
+                position: absolute;
+                top: var(--header-height);
+                left: 0;
+                width: 100%;
+                background-color: var(--secondary-bg);
+                flex-direction: column;
+                align-items: center;
+                border-top: 1px solid var(--border-color);
+                box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                transition: max-height 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.3s ease-in-out, background-color 0.3s ease, border-color 0.3s ease;
+            }
+            .nav-menu.active {
+                max-height: 500px;
+                opacity: 1;
+                display: flex;
+            }
+            .nav-menu li {
+                margin: 0;
+                width: 100%;
+                text-align: center;
+            }
+            .nav-menu li a {
+                display: block;
+                padding: 18px 15px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .nav-menu li a:hover,
+            .nav-menu li a.active-link {
+                transform: translateY(0);
+            }
+            .page h1 { font-size: 2em; }
+            .page h2 { font-size: 1.7em; }
+            .container { width: 95%; }
+            .advertisement-placeholder {
+                max-width: 95%;
+                width: auto;
+                padding: 15px;
+            }
+            .advertisement-placeholder h2 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="logo" data-page="home">Fixmovilg</div>
+            <button class="theme-toggle-button" id="themeToggle" aria-label="Toggle theme">
+                <img src="sun_icon.png" alt="Sun icon" id="sunIcon">
+                <img src="moon_icon.png" alt="Moon icon" id="moonIcon">
+            </button>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-menu">
+            <li><a href="#" data-page="home">Inicio</a></li>
+            <li><a href="#" data-page="services">Servicios</a></li>
+            <li><a href="#" data-page="precios">Precios</a></li>
+            <li><a href="#" data-page="contact">Contacto</a></li>
+        </ul>
+    </header>
+
+    <main class="container">
+        <section id="home" class="page">
+            <h1>Bienvenido a Fixmovilg</h1>
+            <p>Su socio confiable en soluciones informáticas. Ofrecemos una amplia gama de servicios para optimizar su tecnología y asegurar su tranquilidad digital. Explore nuestros servicios o contáctenos para una asesoría personalizada.</p>
+            <div class="advertisement-placeholder">
+                <h2>Promoción Especial</h2>
+                <p class="ad-text">Contrata tu menú digital para tu negocio de bar o restaurante. 
+                    <a href="https://websim.ai/p/fsn" id="digitalMenuLink" class="digital-menu-link" target="_blank" rel="noopener noreferrer">Mi Bar Digital</a>
+                </p>
+            </div>
+            <p>En Fixmovilg, combinamos experiencia, innovación y un servicio al cliente excepcional para brindarle las mejores soluciones tecnológicas adaptadas a sus necesidades.</p>
+        </section>
+
+        <section id="services" class="page">
+            <h2>Nuestros Servicios</h2>
+            <div class="services-grid">
+                <div class="service-item">
+                    <h3>Instalación de Windows</h3>
+                    <p>Instalación completa y configuración del sistema operativo Windows.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Eliminación de Cuentas Google</h3>
+                    <p>Desvinculación y eliminación de cuentas Google en dispositivos.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Quitar Contraseña de Android</h3>
+                    <p>Desbloqueo de patrón, PIN o contraseña en dispositivos Android.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Quitar Contraseña de Android (con cuenta Google)</h3>
+                    <p>Desbloqueo de Android incluso si está vinculado a una cuenta Google.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Desbloqueo Windows Modo S</h3>
+                    <p>Permite instalar aplicaciones de terceros fuera de la Microsoft Store.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Quitar Contraseña de Windows</h3>
+                    <p>Acceso a su sistema Windows si olvidó la contraseña.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Llenado de Memorias</h3>
+                    <p>Copia de archivos (música, videos, documentos) a dispositivos USB/HDD.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Películas</h3>
+                    <p>Amplio catálogo de películas para su disfrute.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Series y Novelas</h3>
+                    <p>Capítulos de sus series y novelas favoritas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="precios" class="page">
+            <h2>Lista de Precios</h2>
+            <div class="services-grid">
+                <div class="service-item">
+                    <h3>Instalación de Windows</h3>
+                    <span class="price-tag">1000 CUP</span>
+                </div>
+                <div class="service-item">
+                    <h3>Eliminación de Cuentas Google</h3>
+                    <span class="price-tag">1000 CUP</span>
+                </div>
+                <div class="service-item">
+                    <h3>Quitar Contraseña de Android</h3>
+                    <span class="price-tag">500 CUP</span>
+                </div>
+                <div class="service-item">
+                    <h3>Quitar Contraseña de Android (con cuenta Google)</h3>
+                    <span class="price-tag">1000 CUP</span>
+                </div>
+                <div class="service-item">
+                    <h3>Desbloqueo Windows Modo S</h3>
+                    <span class="price-tag">200 CUP</span>
+                </div>
+                <div class="service-item">
+                    <h3>Quitar Contraseña de Windows</h3>
+                    <span class="price-tag">300 CUP</span>
+                </div>
+                <div class="service-item">
+                    <h3>Llenado de Memorias</h3>
+                    <span class="price-tag">8 CUP por GB</span>
+                </div>
+                <div class="service-item">
+                    <h3>Películas</h3>
+                    <span class="price-tag">15 CUP por película</span>
+                </div>
+                <div class="service-item">
+                    <h3>Series y Novelas</h3>
+                    <span class="price-tag">2 CUP por capítulo</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="page">
+            <h2>Contacto</h2>
+            <p>¿Listo para potenciar su tecnología? Contáctenos hoy mismo. Estamos aquí para ayudarle.</p>
+            <div class="contact-methods">
+                <a href="https://wa.me/5356639178?text=Hola,%20necesito%20de%20sus%20servicios%20informáticos." target="_blank" rel="noopener noreferrer" class="contact-button">
+                    <img src="whatsapp_icon.png" alt="WhatsApp"> Chatear por WhatsApp
+                </a>
+                <a href="/cdn-cgi/l/email-protection#f7919e8f9a98819e9b9098b7909a969e9bd994989ac88482959d929483cab4989984829b8396d2c5c79392d2c5c7a49285819e949e9884d2c5c7be999198859a3456839e949884d2c5c7dad2c5c7b19e8f9a98819e9b90d19598938ecabf989b96d2c5c7b19e8f9a98819e9b90dbd2c5c799929492849e8398d2c5c79392d2c5c7848284d2c5c7849285819e949e9884d9d9d9" class="contact-button">
+                    <img src="email_icon.png" alt="Email"> Enviar Correo Electrónico
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61575514242565&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer" class="contact-button">
+                    <img src="facebook_icon.png" alt="Facebook"> Contactar por Facebook
+                </a>
+                <p style="margin-top: 20px; text-align:center;">También puede llamar al: <strong>+53 5663 9178</strong></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="currentYear"></span> Fixmovilg. Todos los derechos reservados.</p>
+    </footer>
+
+    <a href="https://wa.me/5356639178?text=Hola,%20necesito%20de%20sus%20servicios%20informáticos." class="whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
+        <img src="whatsapp_icon.png" alt="WhatsApp Icon">
+    </a>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-menu a, .logo[data-page]');
+            const pages = document.querySelectorAll('.page');
+            const navMenu = document.querySelector('.nav-menu');
+            const navToggle = document.querySelector('.nav-toggle');
+
+            // Theme Toggle Functionality
+            const themeToggleButton = document.getElementById('themeToggle');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const currentTheme = localStorage.getItem('theme');
+
+            function applyTheme(theme) {
+                if (theme === 'light') {
+                    document.documentElement.classList.add('light-mode');
+                    sunIcon.style.display = 'none';
+                    moonIcon.style.display = 'block'; 
+                    localStorage.setItem('theme', 'light');
+                } else { 
+                    document.documentElement.classList.remove('light-mode');
+                    sunIcon.style.display = 'block'; 
+                    moonIcon.style.display = 'none';
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+
+            // Initialize theme
+            if (currentTheme) {
+                applyTheme(currentTheme);
+            } else if (userPrefersDark) {
+                applyTheme('dark');
+            } else {
+                applyTheme('light'); 
+            }
+
+            themeToggleButton.addEventListener('click', () => {
+                if (document.documentElement.classList.contains('light-mode')) {
+                    applyTheme('dark'); 
+                } else {
+                    applyTheme('light'); 
+                }
+            });
+
+            function showPage(pageId) {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                }
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active-link');
+                    if (link.getAttribute('data-page') === pageId) {
+                        link.classList.add('active-link');
+                    }
+                });
+                
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active'); 
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const pageId = link.getAttribute('data-page');
+                    if (pageId) {
+                        showPage(pageId);
+                        if (window.innerWidth <= 768 && navMenu.classList.contains('active')) {
+                            navMenu.classList.remove('active');
+                            navToggle.classList.remove('active');
+                        }
+                    }
+                });
+            });
+
+            if (navToggle) {
+                navToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    navToggle.classList.toggle('active'); 
+                });
+            }
+
+            let initialPage = 'home';
+            const homeLink = document.querySelector('.nav-menu a[data-page="home"]');
+            if (homeLink) { 
+                showPage(initialPage);
+            } else { 
+                const targetPage = document.getElementById(initialPage);
+                if (targetPage) targetPage.classList.add('active');
+                const logoLink = document.querySelector('.logo[data-page="home"]');
+                if (logoLink) logoLink.classList.add('active-link'); 
+            }
+            
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+
+</body>
+</html>
